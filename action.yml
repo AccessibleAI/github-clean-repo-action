@@ -1,0 +1,27 @@
+# action.yml
+name: 'Clean tags/branches from repo'
+description: 'Delete tags/branches which are older than certain period of time'
+author: 'Eli Lasry'
+inputs:
+  repo_token:
+    description: 'The GITHUB_TOKEN secret'
+    required: true
+  repo:
+    description: 'The repository name'
+    required: true
+  branch_date:
+    description: 'A git-log compatible date format'
+    required: false
+  tag_date:
+    description: 'A git-log compatible date format'
+    required: false
+  dry_run:
+    description: 'Run in dry-run mode so no branches are deleted'
+    required: false
+  extra_protected_branch_regex:
+    description: 'grep extended (ERE) compatible regex for additional branches to exclude'
+    required: false
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
