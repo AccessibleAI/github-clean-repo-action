@@ -14,6 +14,8 @@ EXCLUDE_BRANCH_REGEX=${INPUT_EXTRA_PROTECTED_BRANCH_REGEX:-^(master|main|daily|s
 echo "Dry Run: ${DRY_RUN}"
 tag_counter=0
 branch_counter=0
+current_time=$(date +%s)
+
 branch_protected() {
     local br=${1}
 
@@ -72,7 +74,7 @@ main() {
         # local branch_counter=1
 
         #if merged to master delete branch
-        if grep -qx "${br}" merged_to_master_file; then
+        if grep -qx "${br}" merged_to_master_file && [[ -z "$(git log --oneline -1 --since="2 weeks ago" origin/"${br}")" ]]; then
             delete_branch_or_tag "${br}" "heads" "${br} has been merged to master"
             deleted=true
         fi
@@ -102,7 +104,6 @@ main() {
     done
     git fetch --prune --prune-tags --tags
     #delete tags older then DATE - default 12 months
-    current_time=$(date +%s)
     d1year=$((${current_time} - ${TAG_DATE}))
     tags=$(git for-each-ref --format="%(refname:lstrip=2) %(creatordate:unix)" refs/tags | awk '{ if ($2 < '"$d1year"') print $1 }')
     for i in ${tags};do
