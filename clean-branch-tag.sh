@@ -3,7 +3,7 @@
 set -eo pipefail
 
 [[ -n ${INPUT_REPO_TOKEN} ]] || { echo "Please set the REPO_TOKEN input"; exit 1; }
-
+git config --global --add safe.directory /github/workspace
 BASE_URI="https://api.github.com"
 REPO="${INPUT_REPO}"
 BRANCH_DATE=${INPUT_BRANCH_DATE:-"6 months ago"}
