@@ -6,7 +6,7 @@ set -eo pipefail
 git config --global --add safe.directory /github/workspace
 BASE_URI="https://api.github.com"
 REPO="${INPUT_REPO}"
-BRANCH_DATE=${INPUT_BRANCH_DATE:-"6 months ago"}
+BRANCH_DATE=${INPUT_BRANCH_DATE:-"12 months ago"}
 TAG_DATE=${INPUT_TAG_DATE:-"31556952"} #year in seconds
 GITHUB_TOKEN=${INPUT_REPO_TOKEN}
 DRY_RUN=${INPUT_DRY_RUN:-true}
